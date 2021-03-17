@@ -29892,9 +29892,9 @@ var MyFlixApplication = /*#__PURE__*/function (_React$Component) {
   _createClass(MyFlixApplication, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/_react.default.createElement("div", {
+      return _react.default.createElement("div", {
         className: "my-flix"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Good morning"));
+      }, _react.default.createElement("div", null, "Good morning"));
     }
   }]);
 
@@ -29902,7 +29902,7 @@ var MyFlixApplication = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component); // Finds the root of your app
 
 
-var container = document.getElementByClassName('app-container')[0]; // Tells React to render you app in the root DOM element
+var container = document.getElementsByClassName('app-container')[0]; // Tells React to render your app in the root DOM element
 
 _reactDom.default.render(_react.default.createElement(MyFlixApplication), container);
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./index.scss":"index.scss"}],"../../../../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -29933,7 +29933,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53377" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53636" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
