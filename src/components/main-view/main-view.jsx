@@ -5,7 +5,7 @@ export class MainView extends React.Component {
 	// One of the "hooks" available in a React Component
 	componentDidMount() {
 		axios
-			.get('<my-api-endpoint/movies>')
+			.get('https://myflix-movies-app.herokuapp.com/movies')
 			.then((response) => {
 				// Assign the result to the state
 				this.setState({
