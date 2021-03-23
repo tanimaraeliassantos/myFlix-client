@@ -5,7 +5,7 @@ export class MainView extends React.Component {
 	// One of the "hooks" available in a React Component
 	componentDidMount() {
 		axios
-			.get('http://localhost:8080/')
+			.get('https://myflix-movies-app.herokuapp.com/movies')
 			.then((response) => {
 				// Assign the result to the state
 				this.setState({
