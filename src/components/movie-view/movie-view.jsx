@@ -1,16 +1,8 @@
 import React from 'react';
 
 export class MovieView extends React.Component {
-	constructor() {
-		super();
-
-		this.state = {};
-	}
-
 	render() {
-		const { movie, removeSelectedMovie } = this.props;
-
-		if (!movie) return null;
+		const { movie, onBackClick } = this.props;
 
 		return (
 			<div className="movie-view">
@@ -23,18 +15,13 @@ export class MovieView extends React.Component {
 					<span className="label">Description: </span>
 					<span className="value">{movie.Description}</span>
 				</div>
-
-				<div className="movie-genre">
-					<span className="label">Genre: </span>
-					<span className="value">{movie.Genre.Name}</span>
-				</div>
-				<div className="movie-director">
-					<span className="label">Director: </span>
-					<span className="value">{movie.Director.Name}</span>
-				</div>
-				<div>
-					<button onClick={() => removeSelectedMovie()}> Back </button>
-				</div>
+				<button
+					onClick={() => {
+						onBackClick(null);
+					}}
+				>
+					Back
+				</button>
 			</div>
 		);
 	}
