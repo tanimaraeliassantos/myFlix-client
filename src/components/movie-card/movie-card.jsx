@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export class MovieCard extends React.Component {
 	render() {
-		const { movie, onMovieClick } = this.props;
+		const { movie, onClick } = this.props;
 
 		return (
 			<div
 				className="movie-card"
 				onClick={() => {
-					onMovieClick(movie);
+					onClick(movie);
 				}}
 			>
 				{movie.Title}
@@ -16,3 +17,10 @@ export class MovieCard extends React.Component {
 		);
 	}
 }
+
+MovieCard.PropTypes = {
+	movie: PropTypes.shape({
+		Title: PropTypes.string,
+	}).isRequired,
+	onClick: PropTypes.func.isRequired,
+};
