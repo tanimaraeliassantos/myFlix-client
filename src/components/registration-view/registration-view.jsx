@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 export function RegistrationView(props) {
@@ -8,10 +9,18 @@ export function RegistrationView(props) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(username, password, email, birthday);
-		/*Send a request to the server for authentication*/
-		/*then call props.onLoggedIn(username)*/
-		props.onLoggedIn(username);
+		console.log('SUBMIT', username, password, email, birthday);
+		axios
+			.post('https://myflix-movies-app.herokuapp.com/users', {
+				Username: username,
+				Password: password,
+				Email: email,
+				Birthday: birthday,
+			})
+			.then((response) => {
+				console.log('RESPONSE', response.data);
+				props.onLoggedIn(response.data);
+			});
 	};
 
 	return (
