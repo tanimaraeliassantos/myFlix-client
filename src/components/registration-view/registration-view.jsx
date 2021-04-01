@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, { useState } from 'react';
 
 export function RegistrationView(props) {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [email, setEmail] = useState('');
-	const [birthday, setBirthday] = useState('');
+	const [username, setUsername] = useState('test1');
+	const [password, setPassword] = useState('test1');
+	const [email, setEmail] = useState('test1@mail.com');
+	const [birthday, setBirthday] = useState('1990-01-01');
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
