@@ -1,4 +1,8 @@
 {
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js"
+	},
 	"dependencies": {
 		"axios": "^0.21.1",
 		"parcel-bundler": "^1.12.5",
