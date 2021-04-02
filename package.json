@@ -8,8 +8,7 @@
 		"src": "^1.1.2"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node index.js"
+		"start": "node index.jsx"
 	},
 	"devDependencies": {
 		"babel-core": "^6.26.3",
