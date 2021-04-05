@@ -37,6 +37,12 @@ export class MainView extends React.Component {
 		});
 	}
 
+	onBackClick() {
+		this.setState({
+			selectedMovie: null,
+		});
+	}
+
 	/* When a user successfully logs in, this function updates the user property
  in state to that particular user */
 
@@ -68,7 +74,10 @@ export class MainView extends React.Component {
 	 that selected movie will be returned, otherwise, all movies will be returned*/}
 
 				{selectedMovie ? (
-					<MovieView movie={selectedMovie} />
+					<MovieView
+						movie={selectedMovie}
+						onBackClick={() => this.onBackClick()}
+					/>
 				) : (
 					movies.map((movie) => (
 						<MovieCard
