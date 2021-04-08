@@ -6,6 +6,9 @@ import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 export class MainView extends React.Component {
 	constructor() {
 		super();
@@ -69,25 +72,26 @@ export class MainView extends React.Component {
 
 		if (!movies) return <div className="main-view" />;
 		return (
-			<div className="main-view">
-				{/*If the state of selectedMovie is not null, 
-	 that selected movie will be returned, otherwise, all movies will be returned*/}
-
+			<Row className="main-view justify-content-md-center">
 				{selectedMovie ? (
-					<MovieView
-						movie={selectedMovie}
-						onBackClick={() => this.onBackClick()}
-					/>
+					<Col md={8}>
+						<MovieView
+							movie={selectedMovie}
+							onBackClick={() => this.onBackClick()}
+						/>
+					</Col>
 				) : (
 					movies.map((movie) => (
-						<MovieCard
-							key={movie._id}
-							movie={movie}
-							onClick={(movie) => this.onMovieClick(movie)}
-						/>
+						<Col md={3}>
+							<MovieCard
+								key={movie._id}
+								movie={movie}
+								onClick={(movie) => this.onMovieClick(movie)}
+							/>
+						</Col>
 					))
 				)}
-			</div>
+			</Row>
 		);
 	}
 }
