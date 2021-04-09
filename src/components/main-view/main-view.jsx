@@ -32,6 +32,21 @@ export class MainView extends React.Component {
 				console.log(error);
 			});
 	}
+
+	getMovies(token) {
+		axios
+			.get('https://myflix-movies-app.herokuapp.com/movies', {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				this.setState({
+					movies: response.data,
+				});
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
 	/* When a movie is clicked this function is invoked and updates the state
  of the selectedMovie property to that movie */
 	onMovieClick(movie) {
@@ -49,10 +64,15 @@ export class MainView extends React.Component {
 	/* When a user successfully logs in, this function updates the user property
  in state to that particular user */
 
-	onLoggedIn(user) {
+	onLoggedIn(authData) {
+		console.log(authData);
 		this.setState({
-			user,
+			user: authData.user.Username,
 		});
+
+		localStorage.setItem('token', authData.token);
+		localStorage.setItem('user', authData.user.Username);
+		this.getMovies(authData.token);
 	}
 
 	render() {
