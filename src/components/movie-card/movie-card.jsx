@@ -10,7 +10,15 @@ export class MovieCard extends React.Component {
 
 		return (
 			<CardDeck>
-				<Card bg="Light" border="danger" style={{ width: '18rem' }}>
+				<Card
+					bg="Light"
+					border="danger"
+					style={{
+						height: '30rem',
+						margin: '1rem',
+						overflowY: 'scroll',
+					}}
+				>
 					<Card.Img variant="top" src={movie.ImagePath} />
 					<Card.Body>
 						<Card.Title>{movie.Title}</Card.Title>
