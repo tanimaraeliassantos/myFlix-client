@@ -21,16 +21,13 @@ export class MainView extends React.Component {
 	}
 
 	componentDidMount() {
-		axios
-			.get('https://myflix-movies-app.herokuapp.com/movies')
-			.then((response) => {
-				this.setState({
-					movies: response.data,
-				});
-			})
-			.catch((error) => {
-				console.log(error);
+		let accessToken = localStorage.getItem('token');
+		if (accessToken !== null) {
+			this.setState({
+				user: localStorage.getItem('user'),
 			});
+			this.getMovies(accessToken);
+		}
 	}
 
 	getMovies(token) {
@@ -54,7 +51,7 @@ export class MainView extends React.Component {
 			selectedMovie: movie,
 		});
 	}
-
+	/*When Back button is clicked, the selectedMovie goes null and the list of movies is shown*/
 	onBackClick() {
 		this.setState({
 			selectedMovie: null,
@@ -63,15 +60,20 @@ export class MainView extends React.Component {
 
 	/* When a user successfully logs in, this function updates the user property
  in state to that particular user */
+	onLoggedIn(user) {
+		this.setState({
+			user,
+		});
+	}
 
 	onLoggedIn(authData) {
 		console.log(authData);
 		this.setState({
-			user: authData.user.Username,
+			user: authData.User.Username,
 		});
 
 		localStorage.setItem('token', authData.token);
-		localStorage.setItem('user', authData.user.Username);
+		localStorage.setItem('user', authData.User.Username);
 		this.getMovies(authData.token);
 	}
 
