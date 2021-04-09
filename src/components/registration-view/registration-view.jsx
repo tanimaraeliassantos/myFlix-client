@@ -7,10 +7,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 export function RegistrationView(props) {
-	const [username, setUsername] = useState('test1');
-	const [password, setPassword] = useState('test1');
-	const [email, setEmail] = useState('test1@mail.com');
-	const [birthday, setBirthday] = useState('1990-01-01');
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('');
+	const [birthday, setBirthday] = useState('');
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
