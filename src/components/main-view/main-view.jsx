@@ -20,35 +20,18 @@ export class MainView extends React.Component {
 		};
 	}
 
-	// componentDidMount() {
-	// 	axios
-	// 		.get('https://myflix-movies-app.herokuapp.com/movies')
-	// 		.then((response) => {
-	// 			this.setState({
-	// 				movies: response.data,
-	// 			});
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// }
-
-	/* New getMovies method*/
-	getMovies(token) {
+	componentDidMount() {
 		axios
-			.get('https://myflix-movies-app.herokuapp.com/movies', {
-				headers: { Authorization: `Bearer ${token}` },
-			})
+			.get('https://myflix-movies-app.herokuapp.com/movies')
 			.then((response) => {
 				this.setState({
 					movies: response.data,
 				});
 			})
-			.catch(function (error) {
+			.catch((error) => {
 				console.log(error);
 			});
 	}
-
 	/* When a movie is clicked this function is invoked and updates the state
  of the selectedMovie property to that movie */
 	onMovieClick(movie) {
