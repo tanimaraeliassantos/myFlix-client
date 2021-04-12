@@ -24,7 +24,7 @@ export class MovieView extends React.Component {
 						</Button>{' '}
 						<Col sm={8}>
 							<div className="movie-title">
-								{/* <span className="label">Title </span>{' '} */}
+								<span className="label">Title </span>{' '}
 								<span className="value">{movie.Title}</span>
 							</div>
 						</Col>
