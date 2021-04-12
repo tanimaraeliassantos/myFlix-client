@@ -1,34 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
 
+import { Link } from 'react-router-dom';
+
 export class MovieCard extends React.Component {
 	render() {
-		const { movie, onClick } = this.props;
+		const { movie } = this.props;
 
 		return (
-			<CardDeck>
-				<Card
-					bg="Light"
-					border="danger"
-					style={{
-						height: '30rem',
-						margin: '1rem',
-						overflowY: 'scroll',
-					}}
-				>
-					<Card.Img variant="top" src={movie.ImagePath} />
-					<Card.Body>
-						<Card.Title>{movie.Title}</Card.Title>
-						<Card.Text>{movie.Description} </Card.Text>
-					</Card.Body>
-					<Button variant="danger" block onClick={() => onClick(movie)}>
-						Open
-					</Button>
-				</Card>
-			</CardDeck>
+			<Card
+				border="danger"
+				style={{
+					width: '20em',
+					margin: '1em',
+				}}
+			>
+				<Card.Img variant="top" src={movie.ImagePath} />
+				<Card.Body>
+					<Card.Title>{movie.Title}</Card.Title>
+					<Card.Text>{movie.Description} </Card.Text>
+					<Link to={`/movies/${movie._id}`}>
+						<Button variant="danger" block onClick={() => onClick(movie)}>
+							Open
+						</Button>
+					</Link>
+				</Card.Body>
+			</Card>
 		);
 	}
 }
