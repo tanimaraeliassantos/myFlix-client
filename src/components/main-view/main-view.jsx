@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
@@ -19,17 +21,6 @@ export class MainView extends React.Component {
 			user: null,
 		};
 	}
-
-	componentDidMount() {
-		let accessToken = localStorage.getItem('token');
-		if (accessToken !== null) {
-			this.setState({
-				user: localStorage.getItem('user'),
-			});
-			this.getMovies(accessToken);
-		}
-	}
-
 	getMovies(token) {
 		axios
 			.get('https://myflix-movies-app.herokuapp.com/movies', {
@@ -44,6 +35,17 @@ export class MainView extends React.Component {
 				console.log(error);
 			});
 	}
+
+	componentDidMount() {
+		let accessToken = localStorage.getItem('token');
+		if (accessToken !== null) {
+			this.setState({
+				user: localStorage.getItem('user'),
+			});
+			this.getMovies(accessToken);
+		}
+	}
+
 	/* When a movie is clicked this function is invoked and updates the state
  of the selectedMovie property to that movie */
 	onMovieClick(movie) {
