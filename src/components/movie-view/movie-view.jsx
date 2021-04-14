@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Media from 'react-bootstrap/Media';
+import { Link } from 'react-router-dom';
 
 export class MovieView extends React.Component {
 	render() {
@@ -36,11 +37,13 @@ export class MovieView extends React.Component {
 								<span className="label">Genre</span>{' '}
 							</div>
 						</Col>
-						<Col sm={6}>
-							<div className="movie-genre">
-								<span className="value">{movie.Genre.Name}</span>
-							</div>
-						</Col>
+						<Link to={`/genres/${movie.Genre.Name}`}>
+							<Col sm={6}>
+								<div className="movie-genre">
+									<span className="value">{movie.Genre.Name}</span>
+								</div>
+							</Col>
+						</Link>
 					</Row>
 
 					<Row>
@@ -49,11 +52,13 @@ export class MovieView extends React.Component {
 								<span className="label">Direction</span>{' '}
 							</div>
 						</Col>
-						<Col sm={6}>
-							<div className="movie-direction">
-								<span className="value">{movie.Director.Name}</span>
-							</div>
-						</Col>
+						<Link to={`/directors/${movie.Director.Name}`}>
+							<Col sm={6}>
+								<div className="movie-direction">
+									<span className="value">{movie.Director.Name}</span>
+								</div>
+							</Col>
+						</Link>
 					</Row>
 
 					<Row>
