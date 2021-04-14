@@ -7,9 +7,9 @@ import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { ProfileView } from '../profile-view/profile-view';
 
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 export class MainView extends React.Component {
 	constructor() {
@@ -57,17 +57,7 @@ export class MainView extends React.Component {
 				user: localStorage.getItem('user'),
 			});
 			this.getMovies(accessToken);
-		}
-	}
-
-	componentWillUnmount() {
-		let onLoggingOut = localStorage.removeItem('token');
-		if (onLoggingOut !== null) {
-			this.state = {
-				movies: null,
-				selectedMovie: null,
-				user: null,
-			};
+			this.getProfile(accessToken);
 		}
 	}
 
@@ -90,18 +80,29 @@ export class MainView extends React.Component {
 		this.getMovies(authData.token);
 	}
 
+	logOut() {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		this.setState = {
+			user: null,
+		};
+		console.log('logout successful');
+		alert('You have been successfully logged out');
+		window.open('/', '_self');
+	}
+
 	render() {
 		const { movies, user } = this.state;
 
-		/* If there is no user, the LoginView is rendered. If there
-	is a user logged in, the user details are *passed as a prop to the LoginView */
-
-		/* Before the movies have been loaded */
-
 		if (!movies) return <div className="main-view" />;
+
 		return (
 			<Router>
-				<div className="main-view">
+				{' '}
+				<Button variant="danger" onClick={() => this.logOut()}>
+					Log Out
+				</Button>
+				<div>
 					<Route
 						exact
 						path="/"
@@ -121,6 +122,14 @@ export class MainView extends React.Component {
 						render={({ match }) => (
 							<MovieView
 								movie={movies.find((m) => m._id === match.params.movieId)}
+							/>
+						)}
+					/>
+					<Route
+						path="/users/:Username"
+						render={({ match }) => (
+							<ProfileView
+								user={users.find((m) => m._id === match.params.Username)}
 							/>
 						)}
 					/>
@@ -150,14 +159,6 @@ export class MainView extends React.Component {
 								/>
 							);
 						}}
-					/>
-					<Route
-						path="/username/:Username"
-						render={({ match }) => (
-							<UserView
-								user={users.find((m) => m._id === match.params.movieId)}
-							/>
-						)}
 					/>
 				</div>
 			</Router>

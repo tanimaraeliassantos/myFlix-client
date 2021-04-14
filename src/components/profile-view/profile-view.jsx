@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Media from 'react-bootstrap/Media';
 
-export class UserView extends React.Component {
+export class ProfileView extends React.Component {
 	render() {
 		const { user, onBackClick } = this.props;
 
