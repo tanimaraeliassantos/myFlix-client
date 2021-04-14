@@ -35,6 +35,20 @@ export class MainView extends React.Component {
 				console.log(error);
 			});
 	}
+	getProfile(token) {
+		axios
+			.get('https://myflix-movies-app.herokuapp.com/users', {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				this.setState({
+					users: response.data,
+				});
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
 
 	componentDidMount() {
 		let accessToken = localStorage.getItem('token');
@@ -56,20 +70,6 @@ export class MainView extends React.Component {
 			};
 		}
 	}
-
-	// 	/* When a movie is clicked this function is invoked and updates the state
-	//  of the selectedMovie property to that movie */
-	// 	onMovieClick(movie) {
-	// 		this.setState({
-	// 			selectedMovie: movie,
-	// 		});
-	// 	}
-	// 	/*When Back button is clicked, the selectedMovie goes null and the list of movies is shown*/
-	// 	onBackClick() {
-	// 		this.setState({
-	// 			selectedMovie: null,
-	// 		});
-	// 	}
 
 	/* When a user successfully logs in, this function updates the user property
  in state to that particular user */
