@@ -12,9 +12,8 @@ export function RegistrationView(props) {
 	const [email, setEmail] = useState('');
 	const [birthday, setBirthday] = useState('');
 
-	const handleSubmit = (e) => {
+	const handleRegister = (e) => {
 		e.preventDefault();
-		console.log('SUBMIT', username, password, email, birthday);
 		axios
 			.post('https://myflix-movies-app.herokuapp.com/users', {
 				Username: username,
@@ -23,8 +22,12 @@ export function RegistrationView(props) {
 				Birthday: birthday,
 			})
 			.then((response) => {
-				console.log('RESPONSE', response.data);
-				props.onLoggedIn(response.data);
+				const data = response.data;
+				console.log(data);
+				window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
+			})
+			.catch((error) => {
+				console.log(error);
 			});
 	};
 
@@ -78,7 +81,7 @@ export function RegistrationView(props) {
 					/>
 				</Col>
 			</Form.Group>
-			<Button variant="danger" type="submit" onClick={handleSubmit}>
+			<Button variant="danger" type="submit" onClick={handleRegister}>
 				{' '}
 				Register{' '}
 			</Button>
