@@ -16,7 +16,7 @@ export class MainView extends React.Component {
 		super();
 		// Initial state is set to null
 		this.state = {
-			movies: null,
+			movies: [],
 			selectedMovie: null,
 			user: null,
 		};
@@ -95,13 +95,6 @@ export class MainView extends React.Component {
 
 		/* If there is no user, the LoginView is rendered. If there
 	is a user logged in, the user details are *passed as a prop to the LoginView */
-		if (!user)
-			return (
-				<React.Fragment>
-					<RegistrationView onLoggedIn={(user) => this.onLoggedIn(user)} />
-					<LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
-				</React.Fragment>
-			);
 
 		/* Before the movies have been loaded */
 
@@ -112,10 +105,17 @@ export class MainView extends React.Component {
 					<Route
 						exact
 						path="/"
-						render={() =>
-							movies.map((m) => <MovieCard key={m._id} movie={m} />)
-						}
+						render={() => {
+							if (!user)
+								return (
+									<React.Fragment>
+										<LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+									</React.Fragment>
+								);
+							return movies.map((m) => <MovieCard key={m._id} movie={m} />);
+						}}
 					/>
+					<Route path="/register" render={() => <RegistrationView />} />
 					<Route
 						path="/movies/:movieId"
 						render={({ match }) => (
@@ -123,6 +123,19 @@ export class MainView extends React.Component {
 								movie={movies.find((m) => m._id === match.params.movieId)}
 							/>
 						)}
+					/>
+					<Route
+						path="/genres/:name"
+						render={({ match }) => {
+							if (!movies) return <div className="main-view" />;
+							return (
+								<GenreView
+									genre={
+										movies.find((m) => m.Genre.Name === match.params.name).Genre
+									}
+								/>
+							);
+						}}
 					/>
 					<Route
 						path="/directors/:name"
@@ -137,6 +150,14 @@ export class MainView extends React.Component {
 								/>
 							);
 						}}
+					/>
+					<Route
+						path="/username/:Username"
+						render={({ match }) => (
+							<UserView
+								user={users.find((m) => m._id === match.params.movieId)}
+							/>
+						)}
 					/>
 				</div>
 			</Router>
