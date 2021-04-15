@@ -1,9 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import CardDeck from 'react-bootstrap/CardDeck';
 
 import { Link } from 'react-router-dom';
 
