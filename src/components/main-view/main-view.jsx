@@ -8,8 +8,11 @@ import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { DirectorView } from '../director-view/director-view';
+import { GenreView } from '../genre-view/genre-view';
 
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
 
 export class MainView extends React.Component {
 	constructor() {
@@ -102,7 +105,7 @@ export class MainView extends React.Component {
 				<Button variant="danger" onClick={() => this.logOut()}>
 					Log Out
 				</Button>
-				<div>
+				<Row className="main-view">
 					<Route
 						exact
 						path="/"
@@ -126,22 +129,26 @@ export class MainView extends React.Component {
 						)}
 					/>
 					<Route
-						path="/users/:Username"
-						render={({ match }) => (
-							<ProfileView
-								user={users.find((m) => m._id === match.params.Username)}
-							/>
-						)}
+						exact
+						path="/users/:userId"
+						render={({}) => {
+							if (!user)
+								return (
+									<LoginView onLoggedIn={(data) => this.onLoggedIn(data)} />
+								);
+							if (movies.length === 0) return;
+							return <ProfileView movies={movies} />;
+						}}
 					/>
+
 					<Route
 						path="/genres/:name"
 						render={({ match }) => {
 							if (!movies) return <div className="main-view" />;
 							return (
 								<GenreView
-									genre={
-										movies.find((m) => m.Genre.Name === match.params.name).Genre
-									}
+									genre={movies.find((m) => m.Genre.Name === match.params.name)}
+									movies={movies}
 								/>
 							);
 						}}
@@ -152,15 +159,15 @@ export class MainView extends React.Component {
 							if (!movies) return <div className="main-view" />;
 							return (
 								<DirectorView
-									director={
-										movies.find((m) => m.Director.Name === match.params.name)
-											.Director
-									}
+									director={movies.find(
+										(m) => m.Director.Name === match.params.name
+									)}
+									movies={movies}
 								/>
 							);
 						}}
 					/>
-				</div>
+				</Row>
 			</Router>
 		);
 	}
