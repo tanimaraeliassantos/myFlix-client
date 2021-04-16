@@ -11,8 +11,7 @@ import { ProfileView } from '../profile-view/profile-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
+import { Button, Row } from 'react-bootstrap';
 
 export class MainView extends React.Component {
 	constructor() {
@@ -101,10 +100,6 @@ export class MainView extends React.Component {
 
 		return (
 			<Router>
-				{' '}
-				<Button variant="danger" onClick={() => this.logOut()}>
-					Log Out
-				</Button>
 				<Row className="main-view">
 					<Route
 						exact
