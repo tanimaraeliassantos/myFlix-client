@@ -11,15 +11,11 @@ export class MovieView extends React.Component {
 			<Container>
 				<div className="movie-view">
 					<Row>
-						<Button
-							sm={1}
-							variant="danger"
-							onClick={() => {
-								onBackClick();
-							}}
-						>
-							Back
-						</Button>{' '}
+						<Link to={`/`}>
+							<Button sm={1} variant="danger">
+								Back
+							</Button>
+						</Link>
 						<Col sm={8}>
 							<div className="movie-title">
 								<span className="label">Title </span>{' '}
