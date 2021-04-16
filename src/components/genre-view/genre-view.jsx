@@ -17,15 +17,11 @@ export class GenreView extends React.Component {
 
 		return (
 			<div className="genre-view">
-				<Button
-					sm={1}
-					variant="danger"
-					onClick={() => {
-						onBackClick();
-					}}
-				>
-					Back
-				</Button>{' '}
+				<Link to={`/`}>
+					<Button sm={1} variant="danger">
+						Back
+					</Button>
+				</Link>
 				<Row>
 					<div className="genre-name">
 						<span className="label h2">Name </span>{' '}
