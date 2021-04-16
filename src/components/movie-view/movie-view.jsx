@@ -1,11 +1,53 @@
 import React from 'react';
-import { Container, Button, Row, Col, Media } from 'react-bootstrap';
+import axios from 'axios';
+
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { Container, Button, Row, Col, Media } from 'react-bootstrap';
+
 export class MovieView extends React.Component {
+	constructor() {
+		super();
+
+		this.state = {};
+	}
+
+	addFavorite(movie) {
+		const token = localStorage.getItem('token');
+		const url =
+			'https://myflix-movies-app.herokuapp.com/users/' +
+			localStorage.getItem('user') +
+			'/movies/' +
+			movie._id;
+
+		console.log(token);
+
+		const handleSubmit = (e) => {
+			e.preventDefault();
+			let checkMovie = [];
+			checkMovie = JSON.parse(localStorage.getItem('favoriteMovies'));
+			if (checkMovie.includes(movie.Title)) {
+				alert('Movie already added on favorite list');
+				return;
+			}
+
+			axios
+				.post(url, '', {
+					headers: { Authorization: `Bearer ${token}` },
+				})
+				.then((response) => {
+					console.log(response);
+					checkMovie.push(movie.Title);
+					localStorage.setItem('favoriteMovies', JSON.stringify(checkMovie));
+					window.open('/users/' + localStorage.getItem('user'), '_self');
+					alert('Movie added to your favorites!');
+				});
+		};
+	}
+
 	render() {
-		const { movie, onBackClick } = this.props;
+		const { movie } = this.props;
 
 		return (
 			<Container>
@@ -53,6 +95,15 @@ export class MovieView extends React.Component {
 							</Col>
 						</Link>
 					</Row>
+					<div>
+						<Button
+							variant="danger"
+							size="sm"
+							onClick={() => this.addFavorite(movie)}
+						>
+							Add to Favorites
+						</Button>
+					</div>
 
 					<Row>
 						<Col>
