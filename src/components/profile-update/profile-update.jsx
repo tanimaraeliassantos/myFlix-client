@@ -1,148 +1,194 @@
-import React, {useState} from React;
-import{ Form, Button, Container} from 'react-bootstrap';
+import React from 'react';
+import { Form, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export function ProfileUpdate(props) {
-    const [Username, setUsername] = useState('');
-    const [Password, setPassword] = useState('');
-    const[Email, setEmail] = useState('');
-    const [Birthday, setBirthday] = useState('');
+	const [Username, setUsername] = useState('');
+	const [Password, setPassword] = useState('');
+	const [Email, setEmail] = useState('');
+	const [Birthday, setBirthday] = useState('');
 
-    const[usernameError, setUsernameError] = useState({});
-    const [passwordError, setPasswordError] = useState({});
-    const [emailError, setEmailError] = useState({});
+	const [usernameError, setUsernameError] = useState({});
+	const [passwordError, setPasswordError] = useState({});
+	const [emailError, setEmailError] = useState({});
+	const [birthdayError, setBirthdayError] = useState({});
 
-    const isValid = formValidation();
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-    const url =
-        'https://myflix-movies-app.herokuapp.com/users/' +
-        localStorage.getItem('user');
+	const handleUpdate = (e) => {
+		e.preventDefault();
 
-        if(isValid) {
-            axios.put(url, {
-                Username: Username,
-                Password: Password,
-                Email: Email,
-                Birthday: Birthday
-            },
-            {
-                headers: { Authorization: `Bearer ${token}` },
-            }).then((response) => {
-                const data = response.data;
-                localStorage.setItem('user', data.Username);
-                alert('Your profile was updated successfully');
-                window.open('/', '_self');
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-        }
+		const isValid = formValidation();
 
-    const formValidation = () => {
-        const usernameError = {};
-        const uasswordError = {};
-        const umailError = {};
-        let isValid = true;
+		const url =
+			'https://myflix-movies-app.herokuapp.com/users/' +
+			localStorage.getItem('user');
 
-        if(Username.trim().length < 5) {
-            usernameError.usernameShort = "Username must be at least 5 characters";
-            isValid = false;
-        }
+		if (isValid) {
+			axios
+				.put(
+					{
+						Username: Username,
+						Password: Password,
+						Email: Email,
+						Birthday: Birthday,
+					},
+					{ headers: { Authorization: `Bearer ${token}` } }
+				)
+				.then((response) => {
+					const data = response.data;
 
-        if(Password.trim().length < 1) {
-            passwordError.passwordMissing = "You must enter a password";
-            isValid = false;
-        }
+					localStorage.setItem('user', data.Username);
+					alert('Your profile was update successfully');
+					window.open('/', '_self');
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		}
+	};
 
-        if(!Email.includes(".") && !Email.includes("@")) {
-            emailError.emailnotEmail = "A valid email address is required";
-            isValid = false;
-        }
+	const formValidation = () => {
+		const usernameError = {};
+		const passwordError = {};
+		const emailError = {};
+		const birthdayError = {};
+		const emailReg = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+		const checkEmail = emailReg.test(email);
+		let isValid = true;
 
-        setUsernameError(usernameError);
-        setPasswordError(passwordError);
-        setEmailError(emailError);
-        return isValid;
-    };
+		if (Username.trim().length < 5) {
+			usernameError.usernameShort = 'Username must be at least 5 characters';
+			isValid = false;
+		}
 
-    return (
-        <Container>
-            <h3> Update your account</h3>
-            <Form className="registration-form">
-                <Form.Group controlId="formBasicUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={Username}
-                        placeholder="Enter username"
-                        required
-                        onChange={(e) => setUsername(e.target.value)}
-                        />
-                        {Object.keys(usernameError).map((key) => {
-                            return(
-                                <div key={key} style={{color: red}}>
-                                    {usernameError[key]}
-                                </div>
-                            );
-                        })}
-                </Form.Group>
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                    type="password"
-                    value={Password}
-                    placeholder="Enter password"
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {Object.keys(passwordError).map((key) => {
-                        return (
-                            <div key={key} style={{color:"red"}}>
-                                {passwordError[key]}
-                            </div>
-                        );
-                    })}
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Date of Birth</Form.Label>
-                    <Form.Control
-                        type="date"
-                        value={birthday}
-                        placeholder="Select Birthday"
-                        required
-                        onChange={(e) => setBirthday(e.target.value)}
-                        />
-                </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type="email"
-                        value={Email}
-                        placeholder="name@example.com"
-                        required
-                        onChange={(e) => setEmail(e.target.value)}
-                        />
-                    {Object.keys(emailError).map((key) => {
-                        return(
-                            <div
-                                key={key}
-                                style={{color:"red"}}
-                                >
-                                    {emailError[key]}
-                            </div>
-                        );
-                    })}
-                </Form.Group>
-                <Link to={`/users/`}>
-                    <Button
-                    variant="danger"
-                    type="submit"
-                    onClick={handleUpdate}> Update
-                    </Button>
-                </Link>
-            </Form>
-        </Container>
-    )
-}                
+		if (Username.trim().length > 10) {
+			usernameError.usernameLog = 'Username must be maximum 10 characters';
+			isValid = false;
+		}
+
+		if (Password.trim().length < 5) {
+			passwordError.passwordMissing = 'Password must be at least 5 characters';
+			isValid = false;
+		}
+
+		if (Password.trim().length > 20) {
+			passwordError.usernameLog = 'Password must be maximum 10 characters';
+			isValid = false;
+		}
+
+		if (Password.trim() !== confirmPassword.trim()) {
+			confirmPasswordError.confirmNotMatch = 'Password does not match';
+			passwordError.passwordNotMatch = 'Password does not match';
+			isValid = false;
+		}
+
+		if (ConfirmPassword.trim().length < 5) {
+			confirmPasswordError.confirmPasswordShort =
+				'Password must be at least 5 characters';
+			isValid = false;
+		}
+
+		if (confirmPassword.trim().length < 20) {
+			confirmPasswordError.confirmPasswordShort =
+				'Password must be maximum 10 characters';
+			isValid = false;
+		}
+
+		if (!checkEmail) {
+			emailError.emailInvalid = 'Invalid email';
+			isValid = false;
+		}
+
+		if (Birthday === null) {
+			birthdayError.selectDate = 'Please select date';
+		}
+
+		setUsernameError(usernameError);
+		setPasswordError(passwordError);
+		setEmailError(emailError);
+		setBirthdayError(birthdayError);
+		return isValid;
+	};
+
+	return (
+		<Container>
+			<h3> Update your account</h3>
+			<Form className="registration-form">
+				<Form.Group controlId="formBasicUsername">
+					<Form.Label>Username</Form.Label>
+					<Form.Control
+						type="text"
+						value={Username}
+						placeholder="Enter username"
+						required
+						onChange={(e) => setUsername(e.target.value)}
+					/>
+					{Object.keys(usernameError).map((key) => {
+						return (
+							<div key={key} style={{ color: red }}>
+								{usernameError[key]}
+							</div>
+						);
+					})}
+				</Form.Group>
+				<Form.Group controlId="formBasicPassword">
+					<Form.Label>Password</Form.Label>
+					<Form.Control
+						type="password"
+						value={Password}
+						placeholder="Enter password"
+						required
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+					{Object.keys(passwordError).map((key) => {
+						return (
+							<div key={key} style={{ color: 'red' }}>
+								{passwordError[key]}
+							</div>
+						);
+					})}
+				</Form.Group>
+				<Form.Group controlId="formBasicEmail">
+					<Form.Label>Email</Form.Label>
+					<Form.Control
+						type="email"
+						value={Email}
+						placeholder="name@example.com"
+						required
+						onChange={(e) => setEmail(e.target.value)}
+					/>
+					{Object.keys(emailError).map((key) => {
+						return (
+							<div key={key} style={{ color: 'red' }}>
+								{emailError[key]}
+							</div>
+						);
+					})}
+				</Form.Group>
+				<Form.Group>
+					<Form.Label>Date of Birth</Form.Label>
+					<Form.Control
+						type="date"
+						value={birthday}
+						placeholder="Select Birthday"
+						required
+						onChange={(e) => setBirthday(e.target.value)}
+					/>
+					{Object.keys(birthdayError).map((key) => {
+						return (
+							<div key={key} style={{ color: 'red' }}>
+								{birthdayError[key]}
+							</div>
+						);
+					})}
+				</Form.Group>
+				<Link to={`/users/`}>
+					<Button variant="danger" type="submit" onClick={handleUpdate}>
+						{' '}
+						Update
+					</Button>
+				</Link>
+			</Form>
+		</Container>
+	);
+}

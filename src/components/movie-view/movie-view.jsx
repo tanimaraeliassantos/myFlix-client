@@ -16,7 +16,7 @@ export class MovieView extends React.Component {
 	addFavorite(movie) {
 		const token = localStorage.getItem('token');
 		const user = localStorage.getItem('user');
-		const url = `https://myflix-movies-app.herokuapp.com/users/${user}/movies/$?${movie._id}`;
+		const url = `https://myflix-movies-app.herokuapp.com/users/${user}/movies/${movie._id}`;
 
 		const checkMovie = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
 		if (checkMovie.includes(movie.Title)) {

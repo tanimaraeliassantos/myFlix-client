@@ -3,12 +3,7 @@ import propTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { Container } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import Form from 'react-bootstrap/Form';
+import { Container, Button, Card, Tab, Tabs, Form } from 'react-bootstrap';
 
 export class ProfileView extends React.Component {
 	constructor(props) {
@@ -20,6 +15,7 @@ export class ProfileView extends React.Component {
 			Email: '',
 			Birthday: '',
 			FavoriteMovies: [],
+			movies: '',
 		};
 	}
 
@@ -62,7 +58,7 @@ export class ProfileView extends React.Component {
 	removeFavorite(movie) {
 		const token = localStorage.getItem('token');
 		const user = localStorage.getItem('user');
-		const url = `https://myflix-movies-app.herokuapp.com/users/${user}/movies/$?${movie._id}`;
+		const url = `https://myflix-movies-app.herokuapp.com/users/${user}/movies/${movie._id}`;
 		axios
 			.delete(url, {
 				headers: { Authorization: `Bearer ${token}` },
@@ -77,7 +73,7 @@ export class ProfileView extends React.Component {
 	}
 
 	// Delete user from users list
-	handleDeregister() {
+	handleUnregister() {
 		const token = localStorage.getItem('token');
 		const user = localStorage.getItem('user');
 		axios
@@ -127,7 +123,7 @@ export class ProfileView extends React.Component {
 							</Form.Group>
 							<Form.Group controlId="FavoriteMovies">
 								<h5>Favorite Movies</h5>
-								{FavoriteMovies.map((movie) => {
+								{this.state.FavoriteMovies.map((movie) => {
 									return (
 										<div key={movie._id}>
 											<Card>
@@ -146,7 +142,7 @@ export class ProfileView extends React.Component {
 								})}
 							</Form.Group>
 
-							<Link to={`/update/${this.state.Username}`}>
+							<Link to={`update/${Username}`}>
 								<Button variant="outline-red" type="link" size="sm" block>
 									Edit Profile
 								</Button>
@@ -155,7 +151,7 @@ export class ProfileView extends React.Component {
 								variant="danger"
 								size="sm"
 								block
-								onClick={() => this.handleDeregister()}
+								onClick={() => this.handleUnregister()}
 							>
 								Delete Account
 							</Button>

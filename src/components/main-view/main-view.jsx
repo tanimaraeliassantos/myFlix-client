@@ -108,8 +108,8 @@ export class MainView extends React.Component {
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="mr-auto">
-							<Nav.Link href={`/`}>Home</Nav.Link>
-							<Nav.Link href={`/users/` + user.Username}>Profile</Nav.Link>
+							<Nav.Link href={'/'}>Home</Nav.Link>
+							<Nav.Link href={'/users/' + user.Username}>Profile</Nav.Link>
 						</Nav>
 						<Form inline>
 							<FormControl
@@ -157,9 +157,9 @@ export class MainView extends React.Component {
 							render={() => <ProfileView movies={movies} />}
 						/>
 						<Route
-							path="/update/:Username"
+							path="/users/update/:Username"
 							render={() => {
-								<ProfileUpdate movies={movies} />;
+								<ProfileUpdate />;
 							}}
 						/>
 
