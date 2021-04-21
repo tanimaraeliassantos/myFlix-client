@@ -42,12 +42,16 @@ export class ProfileView extends React.Component {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
+				const { movies } = this.props;
+				const FavoriteMovies = movies.filter((movie) => {
+					return response.data.FavoriteMovies.includes(movie._id);
+				});
 				this.setState({
 					Username: response.data.Username,
 					Password: response.data.Password,
 					Email: response.data.Email,
 					Birthday: this.formatDate(response.data.Birthday),
-					FavoriteMovies: response.data.FavoriteMovies,
+					FavoriteMovies: FavoriteMovies,
 				});
 			})
 			.catch(function (error) {
@@ -56,12 +60,9 @@ export class ProfileView extends React.Component {
 	}
 	// Remove Movie from list of favorites
 	removeFavorite(movie) {
-		let token = localStorage.getItem('token');
-		let url =
-			'https://myflix-movies-app.herokuapp.com/users' +
-			token +
-			'/movies/' +
-			movie._id;
+		const token = localStorage.getItem('token');
+		const user = localStorage.getItem('user');
+		const url = `https://myflix-movies-app.herokuapp.com/users/${user}/movies/$?${movie._id}`;
 		axios
 			.delete(url, {
 				headers: { Authorization: `Bearer ${token}` },
@@ -95,10 +96,8 @@ export class ProfileView extends React.Component {
 	}
 
 	render() {
-		const { movies } = this.props;
-		const favoriteMovieList = movies.filter((movie) => {
-			return this.state.FavoriteMovies.includes(movie._id);
-		});
+		const { Username, Password, Email, Birthday, FavoriteMovies } = this.state;
+		if (Username === '') return <p>Loading...</p>;
 
 		return (
 			<Container className="profile-view">
@@ -112,23 +111,23 @@ export class ProfileView extends React.Component {
 							<h3 style={{ textAlign: 'left' }}>Profile Details</h3>
 							<Form.Group controlId="formBasicUsername">
 								<h5>Username</h5>
-								<Form.Label>{this.state.Username}</Form.Label>
+								<Form.Label>{Username}</Form.Label>
 							</Form.Group>
 							<Form.Group controlId="formBasicPassword">
 								<h5>Password</h5>
-								<Form.Label>{this.state.Password}</Form.Label>
+								<Form.Label>{Password}</Form.Label>
 							</Form.Group>
 							<Form.Group controlId="formBasicEmail">
 								<h5>Email</h5>
-								<Form.Label>{this.state.Email}</Form.Label>
+								<Form.Label>{Email}</Form.Label>
 							</Form.Group>
 							<Form.Group controlId="formBasicDate">
 								<h5>Date of Birth</h5>
-								<Form.Label>{this.state.Birthday}</Form.Label>
+								<Form.Label>{Birthday}</Form.Label>
 							</Form.Group>
 							<Form.Group controlId="FavoriteMovies">
 								<h5>Favorite Movies</h5>
-								{favoriteMovieList.map((movie) => {
+								{FavoriteMovies.map((movie) => {
 									return (
 										<div key={movie._id}>
 											<Card>
