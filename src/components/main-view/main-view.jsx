@@ -8,6 +8,7 @@ import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { ProfileUpdate } from '../profile-update/profile-update';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 
@@ -42,7 +43,7 @@ export class MainView extends React.Component {
 		}
 	}
 
-	// When a user logs in, this updates de 'user' property to that particular 'user'
+	// When a user logs in, this updates from 'user' property to that particular 'user'
 	onLoggedIn(authData) {
 		console.log(authData);
 		this.setState({
@@ -118,6 +119,11 @@ export class MainView extends React.Component {
 							/>
 							<Button variant="danger">Search</Button>
 						</Form>
+						<Form inline>
+							<Button variant="danger" onClick={() => this.logOut()}>
+								Logout
+							</Button>
+						</Form>
 					</Navbar.Collapse>
 				</Navbar>
 				<div className="main-view pt-5">
@@ -144,10 +150,17 @@ export class MainView extends React.Component {
 								/>
 							)}
 						/>
+
 						<Route
 							exact
-							path="/users/:username"
+							path="/users/:Username"
 							render={() => <ProfileView movies={movies} />}
+						/>
+						<Route
+							path="/update/:Username"
+							render={() => {
+								<ProfileUpdate movies={movies} />;
+							}}
 						/>
 
 						<Route
@@ -164,6 +177,7 @@ export class MainView extends React.Component {
 								);
 							}}
 						/>
+
 						<Route
 							path="/directors/:name"
 							render={({ match }) => {
