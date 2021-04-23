@@ -39,9 +39,11 @@ export class ProfileView extends React.Component {
 			})
 			.then((response) => {
 				const { movies } = this.props;
+				console.log('MOVIE', movies[0]);
 				const FavoriteMovies = movies.filter((movie) => {
 					return response.data.FavoriteMovies.includes(movie._id);
 				});
+				console.log(FavoriteMovies);
 				this.setState({
 					Username: response.data.Username,
 					Password: response.data.Password,
@@ -94,6 +96,7 @@ export class ProfileView extends React.Component {
 	render() {
 		const { Username, Password, Email, Birthday, FavoriteMovies } = this.state;
 		if (Username === '') return <p>Loading...</p>;
+		console.log(this.state.FavoriteMovies);
 
 		return (
 			<Container className="profile-view">
@@ -167,7 +170,7 @@ export class ProfileView extends React.Component {
 								<Button
 									className="button"
 									variant="danger"
-									onClick={(e) => this.handleDeregister(e)}
+									onClick={(e) => this.handleUnregister(e)}
 								>
 									Click here to delete your account.
 								</Button>

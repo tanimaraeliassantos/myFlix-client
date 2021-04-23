@@ -28,7 +28,6 @@ export class MainView extends React.Component {
 		// Initial state is set to null
 		this.state = {
 			movies: [],
-			selectedMovie: '',
 			user: '',
 		};
 	}
@@ -84,19 +83,12 @@ export class MainView extends React.Component {
 			});
 	}
 
-	// When a movie is clicked, this function updates the state of 'selectedMovie' property to that movie.
-	onMovieClick(movie) {
-		this.setState({
-			selectedMovie: movie,
-		});
-	}
-
 	/* When a user successfully logs in, this function updates the user property
  in state to that particular user */
 
 	render() {
 		// Destructure
-		const { movies, selectedMovie, user } = this.state;
+		const { movies, user } = this.state;
 
 		// Before the movies have been loaded
 		if (!movies) return <div className="main-view" />;
@@ -109,7 +101,7 @@ export class MainView extends React.Component {
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="mr-auto">
 							<Nav.Link href={'/'}>Home</Nav.Link>
-							<Nav.Link href={'/users/' + user.Username}>Profile</Nav.Link>
+							<Nav.Link href={'/users/' + user}>Profile</Nav.Link>
 						</Nav>
 						<Form inline>
 							<FormControl
@@ -154,12 +146,17 @@ export class MainView extends React.Component {
 						<Route
 							exact
 							path="/users/:Username"
-							render={() => <ProfileView movies={movies} />}
+							render={() => {
+								if (!movies) return <div className="main-view" />;
+								return <ProfileView movies={movies} />;
+							}}
 						/>
+
 						<Route
 							path="/users/update/:Username"
 							render={() => {
-								<ProfileUpdate />;
+								if (!movies) return <div className="main-view" />;
+								return <ProfileUpdate movies={movies} />;
 							}}
 						/>
 

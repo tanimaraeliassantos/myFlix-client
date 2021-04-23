@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -24,8 +24,10 @@ export function ProfileUpdate(props) {
 			localStorage.getItem('user');
 
 		if (isValid) {
+			const token = localStorage.getItem('token');
 			axios
 				.put(
+					url,
 					{
 						Username: Username,
 						Password: Password,
@@ -36,7 +38,6 @@ export function ProfileUpdate(props) {
 				)
 				.then((response) => {
 					const data = response.data;
-
 					localStorage.setItem('user', data.Username);
 					alert('Your profile was update successfully');
 					window.open('/', '_self');
@@ -53,7 +54,7 @@ export function ProfileUpdate(props) {
 		const emailError = {};
 		const birthdayError = {};
 		const emailReg = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-		const checkEmail = emailReg.test(email);
+		const checkEmail = emailReg.test(Email);
 		let isValid = true;
 
 		if (Username.trim().length < 5) {
@@ -73,24 +74,6 @@ export function ProfileUpdate(props) {
 
 		if (Password.trim().length > 20) {
 			passwordError.usernameLog = 'Password must be maximum 10 characters';
-			isValid = false;
-		}
-
-		if (Password.trim() !== confirmPassword.trim()) {
-			confirmPasswordError.confirmNotMatch = 'Password does not match';
-			passwordError.passwordNotMatch = 'Password does not match';
-			isValid = false;
-		}
-
-		if (ConfirmPassword.trim().length < 5) {
-			confirmPasswordError.confirmPasswordShort =
-				'Password must be at least 5 characters';
-			isValid = false;
-		}
-
-		if (confirmPassword.trim().length < 20) {
-			confirmPasswordError.confirmPasswordShort =
-				'Password must be maximum 10 characters';
 			isValid = false;
 		}
 
@@ -169,7 +152,7 @@ export function ProfileUpdate(props) {
 					<Form.Label>Date of Birth</Form.Label>
 					<Form.Control
 						type="date"
-						value={birthday}
+						value={Birthday}
 						placeholder="Select Birthday"
 						required
 						onChange={(e) => setBirthday(e.target.value)}
