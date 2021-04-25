@@ -39,7 +39,7 @@ export class ProfileView extends React.Component {
 			})
 			.then((response) => {
 				const { movies } = this.props;
-				console.log('MOVIE', movies[0]);
+
 				const FavoriteMovies = movies.filter((movie) => {
 					return response.data.FavoriteMovies.includes(movie._id);
 				});
@@ -66,6 +66,12 @@ export class ProfileView extends React.Component {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then(() => {
+				const favMovies =
+					JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+				localStorage.setItem(
+					'favoriteMovies',
+					JSON.stringify(favMovies.filter((id) => id !== movie._id))
+				);
 				alert('Movie was removed from your Favorites List.');
 				this.componentDidMount();
 			})

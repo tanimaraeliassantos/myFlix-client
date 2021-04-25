@@ -19,7 +19,7 @@ export class MovieView extends React.Component {
 		const url = `https://myflix-movies-app.herokuapp.com/users/${user}/movies/${movie._id}`;
 
 		const checkMovie = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
-		if (checkMovie.includes(movie.Title)) {
+		if (checkMovie.includes(movie._id)) {
 			alert('Movie already added on favorite list');
 			return;
 		}
@@ -30,7 +30,7 @@ export class MovieView extends React.Component {
 			})
 			.then((response) => {
 				console.log(response);
-				checkMovie.push(movie.Title);
+				checkMovie.push(movie._id);
 				localStorage.setItem('favoriteMovies', JSON.stringify(checkMovie));
 				window.open('/users/' + localStorage.getItem('user'), '_self');
 				alert('Movie added to your favorites!');

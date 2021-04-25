@@ -51,6 +51,10 @@ export class MainView extends React.Component {
 
 		localStorage.setItem('token', authData.token);
 		localStorage.setItem('user', authData.User.Username);
+		localStorage.setItem(
+			'favoriteMovies',
+			JSON.stringify(authData.User.FavoriteMovies)
+		);
 		this.getMovies(authData.token);
 	}
 
@@ -89,9 +93,6 @@ export class MainView extends React.Component {
 	render() {
 		// Destructure
 		const { movies, user } = this.state;
-
-		// Before the movies have been loaded
-		if (!movies) return <div className="main-view" />;
 
 		return (
 			<Router>
@@ -147,7 +148,7 @@ export class MainView extends React.Component {
 							exact
 							path="/users/:Username"
 							render={() => {
-								if (!movies) return <div className="main-view" />;
+								if (movies.length === 0) return <div className="main-view" />;
 								return <ProfileView movies={movies} />;
 							}}
 						/>
@@ -155,7 +156,7 @@ export class MainView extends React.Component {
 						<Route
 							path="/users/update/:Username"
 							render={() => {
-								if (!movies) return <div className="main-view" />;
+								if (movies.length === 0) return <div className="main-view" />;
 								return <ProfileUpdate movies={movies} />;
 							}}
 						/>
@@ -163,7 +164,7 @@ export class MainView extends React.Component {
 						<Route
 							path="/genres/:name"
 							render={({ match }) => {
-								if (!movies) return <div className="main-view" />;
+								if (movies.length === 0) return <div className="main-view" />;
 								return (
 									<GenreView
 										genre={movies.find(
@@ -178,7 +179,7 @@ export class MainView extends React.Component {
 						<Route
 							path="/directors/:name"
 							render={({ match }) => {
-								if (!movies) return <div className="main-view" />;
+								if (movies.length === 0) return <div className="main-view" />;
 								return (
 									<DirectorView
 										director={movies.find(
