@@ -1,11 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 
+import { connect } from 'react-redux';
+
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import { setMovies } from '../../actions/actions';
+
+import MoviesList from '../movies-list/movies-list';
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
-import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { ProfileUpdate } from '../profile-update/profile-update';
@@ -22,13 +27,12 @@ import {
 	Link,
 } from 'react-bootstrap';
 
-export class MainView extends React.Component {
+class MainView extends React.Component {
 	constructor() {
 		super();
 		// Initial state is set to null
 		this.state = {
-			movies: [],
-			user: '',
+			user: null,
 		};
 	}
 
@@ -42,7 +46,22 @@ export class MainView extends React.Component {
 		}
 	}
 
-	// When a user logs in, this updates from 'user' property to that particular 'user'
+	// Get movies with a GET request to Heroku
+
+	getMovies(token) {
+		axios
+			.get('https://myflix-movies-app.herokuapp.com/movies', {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				// Assign result to the state
+				this.props.setMovies(response.data);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
+
 	onLoggedIn(authData) {
 		console.log(authData);
 		this.setState({
@@ -69,30 +88,10 @@ export class MainView extends React.Component {
 		window.open('/', '_self');
 	}
 
-	// Get movies with a GET request to Heroku
-
-	getMovies(token) {
-		axios
-			.get('https://myflix-movies-app.herokuapp.com/movies', {
-				headers: { Authorization: `Bearer ${token}` },
-			})
-			.then((response) => {
-				// Assign result to the state
-				this.setState({
-					movies: response.data,
-				});
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-	}
-
-	/* When a user successfully logs in, this function updates the user property
- in state to that particular user */
-
 	render() {
 		// Destructure
-		const { movies, user } = this.state;
+		let { movies } = this.props;
+		let { user } = this.state;
 
 		return (
 			<Router>
@@ -131,7 +130,7 @@ export class MainView extends React.Component {
 											<LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
 										</React.Fragment>
 									);
-								return movies.map((m) => <MovieCard key={m._id} movie={m} />);
+								return <MoviesList movies={movies} />;
 							}}
 						/>
 						<Route path="/register" render={() => <RegistrationView />} />
@@ -196,3 +195,9 @@ export class MainView extends React.Component {
 		);
 	}
 }
+
+let mapStateToProps = (state) => {
+	return { movies: state.movies };
+};
+
+export default connect(mapStateToProps, { setMovies })(MainView);
