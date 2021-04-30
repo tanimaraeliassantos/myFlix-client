@@ -11,10 +11,22 @@ import MoviesList from '../movies-list/movies-list';
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
+import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { ProfileView } from '../profile-view/profile-view';
+import { ProfileUpdate } from '../profile-update/profile-update';
+import { DirectorView } from '../director-view/director-view';
+import { GenreView } from '../genre-view/genre-view';
 
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import {
+	FormControl,
+	Form,
+	Nav,
+	Navbar,
+	Button,
+	Row,
+	Link,
+} from 'react-bootstrap';
 
 class MainView extends React.Component {
 	constructor() {
@@ -59,20 +71,6 @@ class MainView extends React.Component {
 			};
 		}
 	}
-
-	// 	/* When a movie is clicked this function is invoked and updates the state
-	//  of the selectedMovie property to that movie */
-	// 	onMovieClick(movie) {
-	// 		this.setState({
-	// 			selectedMovie: movie,
-	// 		});
-	// 	}
-	// 	/*When Back button is clicked, the selectedMovie goes null and the list of movies is shown*/
-	// 	onBackClick() {
-	// 		this.setState({
-	// 			selectedMovie: null,
-	// 		});
-	// 	}
 
 	/* When a user successfully logs in, this function updates the user property
  in state to that particular user */
