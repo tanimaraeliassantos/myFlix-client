@@ -11,7 +11,6 @@ import MoviesList from '../movies-list/movies-list';
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
-import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { ProfileUpdate } from '../profile-update/profile-update';
@@ -36,20 +35,6 @@ class MainView extends React.Component {
 			user: null,
 		};
 	}
-	getMovies(token) {
-		axios
-			.get('https://myflix-movies-app.herokuapp.com/movies', {
-				headers: { Authorization: `Bearer ${token}` },
-			})
-			.then((response) => {
-				this.setState({
-					movies: response.data,
-				});
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-	}
 
 	componentDidMount() {
 		let accessToken = localStorage.getItem('token');
@@ -61,23 +46,20 @@ class MainView extends React.Component {
 		}
 	}
 
-	componentWillUnmount() {
-		let onLoggingOut = localStorage.removeItem('token');
-		if (onLoggingOut !== null) {
-			this.state = {
-				movies: null,
-				selectedMovie: null,
-				user: null,
-			};
-		}
-	}
+	// Get movies with a GET request to Heroku
 
-	/* When a user successfully logs in, this function updates the user property
- in state to that particular user */
-	onLoggedIn(user) {
-		this.setState({
-			user,
-		});
+	getMovies(token) {
+		axios
+			.get('https://myflix-movies-app.herokuapp.com/movies', {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				// Assign result to the state
+				this.props.setMovies(response.data);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 	}
 
 	onLoggedIn(authData) {
@@ -101,25 +83,6 @@ class MainView extends React.Component {
 		alert('You have been successfully logged out');
 		window.open('/', '_self');
 	}
-
-	// Get movies with a GET request to Heroku
-
-	getMovies(token) {
-		axios
-			.get('https://myflix-movies-app.herokuapp.com/movies', {
-				headers: { Authorization: `Bearer ${token}` },
-			})
-			.then((response) => {
-				// Assign result to the state
-				this.props.setMovies(response.data);
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
-	}
-
-	/* When a user successfully logs in, this function updates the user property
- in state to that particular user */
 
 	render() {
 		// Destructure
@@ -223,41 +186,6 @@ class MainView extends React.Component {
 							}}
 						/>
 					</Row>
-					<Route
-						path="/genres/:name"
-						render={({ match }) => {
-							if (!movies) return <div className="main-view" />;
-							return (
-								<GenreView
-									genre={
-										movies.find((m) => m.Genre.Name === match.params.name).Genre
-									}
-								/>
-							);
-						}}
-					/>
-					<Route
-						path="/directors/:name"
-						render={({ match }) => {
-							if (!movies) return <div className="main-view" />;
-							return (
-								<DirectorView
-									director={
-										movies.find((m) => m.Director.Name === match.params.name)
-											.Director
-									}
-								/>
-							);
-						}}
-					/>
-					<Route
-						path="/username/:Username"
-						render={({ match }) => (
-							<UserView
-								user={users.find((m) => m._id === match.params.movieId)}
-							/>
-						)}
-					/>
 				</div>
 			</Router>
 		);

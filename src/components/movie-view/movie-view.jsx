@@ -1,28 +1,54 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Media from 'react-bootstrap/Media';
+import axios from 'axios';
+
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { Container, Button, Row, Col, Media } from 'react-bootstrap';
+
 export class MovieView extends React.Component {
+	constructor() {
+		super();
+
+		this.state = {};
+	}
+
+	addFavorite(movie) {
+		const token = localStorage.getItem('token');
+		const user = localStorage.getItem('user');
+		const url = `https://myflix-movies-app.herokuapp.com/users/${user}/movies/${movie._id}`;
+
+		const checkMovie = JSON.parse(localStorage.getItem('favoriteMovies')) || [];
+		if (checkMovie.includes(movie._id)) {
+			alert('Movie already added on favorite list');
+			return;
+		}
+
+		axios
+			.get(url, '', {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				console.log(response);
+				checkMovie.push(movie._id);
+				localStorage.setItem('favoriteMovies', JSON.stringify(checkMovie));
+				window.open('/users/' + localStorage.getItem('user'), '_self');
+				alert('Movie added to your favorites!');
+			});
+	}
+
 	render() {
-		const { movie, onBackClick } = this.props;
+		const { movie } = this.props;
 
 		return (
 			<Container>
 				<div className="movie-view">
 					<Row>
-						<Button
-							sm={1}
-							variant="danger"
-							onClick={() => {
-								onBackClick();
-							}}
-						>
-							Back
-						</Button>{' '}
+						<Link to={`/`}>
+							<Button sm={1} variant="danger">
+								Back
+							</Button>
+						</Link>
 						<Col sm={8}>
 							<div className="movie-title">
 								<span className="label">Title </span>{' '}
@@ -60,6 +86,15 @@ export class MovieView extends React.Component {
 							</Col>
 						</Link>
 					</Row>
+					<div>
+						<Button
+							variant="danger"
+							size="sm"
+							onClick={() => this.addFavorite(movie)}
+						>
+							Add to Favorites
+						</Button>
+					</div>
 
 					<Row>
 						<Col>
