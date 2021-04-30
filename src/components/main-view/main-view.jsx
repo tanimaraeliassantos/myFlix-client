@@ -21,11 +21,6 @@ class MainView extends React.Component {
 		super();
 		// Initial state is set to null
 		this.state = {
-<<<<<<< Updated upstream
-			movies: [],
-			selectedMovie: null,
-=======
->>>>>>> Stashed changes
 			user: null,
 		};
 	}
@@ -98,13 +93,6 @@ class MainView extends React.Component {
 		this.getMovies(authData.token);
 	}
 
-<<<<<<< Updated upstream
-	render() {
-		const { movies, user } = this.state;
-
-		/* If there is no user, the LoginView is rendered. If there
-	is a user logged in, the user details are *passed as a prop to the LoginView */
-=======
 	logOut() {
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
@@ -198,36 +186,45 @@ class MainView extends React.Component {
 								return <ProfileView movies={movies} />;
 							}}
 						/>
->>>>>>> Stashed changes
 
-		/* Before the movies have been loaded */
+						<Route
+							path="/users/update/:Username"
+							render={() => {
+								if (movies.length === 0) return <div className="main-view" />;
+								return <ProfileUpdate movies={movies} />;
+							}}
+						/>
 
-		if (!movies) return <div className="main-view" />;
-		return (
-			<Router>
-				<div className="main-view">
-					<Route
-						exact
-						path="/"
-						render={() => {
-							if (!user)
+						<Route
+							path="/genres/:name"
+							render={({ match }) => {
+								if (movies.length === 0) return <div className="main-view" />;
 								return (
-									<React.Fragment>
-										<LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
-									</React.Fragment>
+									<GenreView
+										genre={movies.find(
+											(m) => m.Genre.Name === match.params.name
+										)}
+										movies={movies}
+									/>
 								);
-							return movies.map((m) => <MovieCard key={m._id} movie={m} />);
-						}}
-					/>
-					<Route path="/register" render={() => <RegistrationView />} />
-					<Route
-						path="/movies/:movieId"
-						render={({ match }) => (
-							<MovieView
-								movie={movies.find((m) => m._id === match.params.movieId)}
-							/>
-						)}
-					/>
+							}}
+						/>
+
+						<Route
+							path="/directors/:name"
+							render={({ match }) => {
+								if (movies.length === 0) return <div className="main-view" />;
+								return (
+									<DirectorView
+										director={movies.find(
+											(m) => m.Director.Name === match.params.name
+										)}
+										movies={movies}
+									/>
+								);
+							}}
+						/>
+					</Row>
 					<Route
 						path="/genres/:name"
 						render={({ match }) => {
