@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 
 export function LoginView(props) {
@@ -25,6 +26,8 @@ export function LoginView(props) {
 
 	return (
 		<Form>
+			<h1>Welcome to myFlix!</h1>
+
 			<Form.Group controlId="formUsername">
 				<Form.Label>Username</Form.Label>
 				<Form.Control
@@ -41,8 +44,16 @@ export function LoginView(props) {
 				/>
 			</Form.Group>
 			<Button variant="danger" type="submit" onClick={handleSubmit}>
-				Submit
+				Login
 			</Button>
+			<Form.Group className="text-center">
+				<span>Not yet a member?</span>
+				<Link to="/register">
+					<Button variant="link" className="text-xs">
+						Register Now
+					</Button>
+				</Link>
+			</Form.Group>
 		</Form>
 	);
 }

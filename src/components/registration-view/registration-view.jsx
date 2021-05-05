@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 
 export function RegistrationView(props) {
 	const [username, setUsername] = useState('');
@@ -30,58 +31,51 @@ export function RegistrationView(props) {
 
 	return (
 		<Form>
-			<Form.Group as={Row} controlId="formUsername">
-				<Form.Label column sm="2">
-					Username
-				</Form.Label>
-				<Col sm="10">
-					<Form.Control
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-					/>
-				</Col>
+			<h2> Join myFlix now!</h2>
+			<Form.Group controlId="formUsername">
+				<Form.Label className="text-base">Username:</Form.Label>
+				<Form.Control
+					type="text"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+				/>
 			</Form.Group>
-			<Form.Group as={Row} controlId="formPassword">
-				<Form.Label column sm="2">
-					Password
-				</Form.Label>
-				<Col sm="10">
-					<Form.Control
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</Col>
+			<Form.Group controlId="formPassword">
+				<Form.Label>Password:</Form.Label>
+				<Form.Control
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
 			</Form.Group>
-			<Form.Group as={Row} controlId="formEmail">
-				<Form.Label column sm="2">
-					Email
-				</Form.Label>
-				<Col sm="10">
-					<Form.Control
-						type="email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</Col>
+			<Form.Group controlId="formEmail">
+				<Form.Label>Email:</Form.Label>
+				<Form.Control
+					type="email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+				/>
 			</Form.Group>
-			<Form.Group as={Row} controlId="formBirthday">
-				<Form.Label column sm="2">
-					Date of Birth
-				</Form.Label>
-				<Col sm="10">
-					<Form.Control
-						type="date"
-						value={birthday}
-						onChange={(e) => setBirthday(e.target.value)}
-					/>
-				</Col>
+			<Form.Group controlId="formBirthday">
+				<Form.Label>Date of Birth:</Form.Label>
+				<Form.Control
+					type="date"
+					value={birthday}
+					onChange={(e) => setBirthday(e.target.value)}
+				/>
 			</Form.Group>
 			<Button variant="danger" type="submit" onClick={handleRegister}>
 				{' '}
 				Register{' '}
 			</Button>
+			<Form.Group className="text-center">
+				<span>Already have an account?</span>
+				<Link to="/">
+					<Button variant="link" className="text-xs">
+						Login
+					</Button>
+				</Link>
+			</Form.Group>
 		</Form>
 	);
 }

@@ -1,22 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-
-import { connect } from 'react-redux';
-
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { setMovies } from '../../actions/actions';
-
-import MoviesList from '../movies-list/movies-list';
-
-import { LoginView } from '../login-view/login-view';
-import { RegistrationView } from '../registration-view/registration-view';
-import { MovieView } from '../movie-view/movie-view';
-import { ProfileView } from '../profile-view/profile-view';
-import { ProfileUpdate } from '../profile-update/profile-update';
-import { DirectorView } from '../director-view/director-view';
-import { GenreView } from '../genre-view/genre-view';
-
+// React
 import {
 	FormControl,
 	Form,
@@ -27,28 +13,53 @@ import {
 	Link,
 } from 'react-bootstrap';
 
+// Redux
+import { connect } from 'react-redux';
+import { setMovies } from '../../actions/actions';
+import { setUser } from '../../actions/actions';
+
+// UI Components
+
+import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
+import MoviesList from '../movies-list/movies-list';
+import { MovieView } from '../movie-view/movie-view';
+import { ProfileView } from '../profile-view/profile-view';
+import { ProfileUpdate } from '../profile-update/profile-update';
+import { DirectorView } from '../director-view/director-view';
+import { GenreView } from '../genre-view/genre-view';
+
 class MainView extends React.Component {
+	// Construct the component
 	constructor() {
+		// Call on React.Component
 		super();
-		// Initial state is set to null
-		this.state = {
-			user: null,
-		};
+
+		// Initialise for the component
+		this.state = {};
 	}
 
+	// When component is mounted to the DOM
 	componentDidMount() {
+		// Define a way to get token from localStorage
 		let accessToken = localStorage.getItem('token');
+
+		// If token has a value
 		if (accessToken !== null) {
 			this.setState({
+				// set user state with this value
 				user: localStorage.getItem('user'),
 			});
+
+			// Pass value to other functions
 			this.getMovies(accessToken);
+			this.getUser(accessToken);
 		}
 	}
 
-	// Get movies with a GET request to Heroku
-
+	// Get movies with a token
 	getMovies(token) {
+		// Fetch data from server side
 		axios
 			.get('https://myflix-movies-app.herokuapp.com/movies', {
 				headers: { Authorization: `Bearer ${token}` },
@@ -62,22 +73,50 @@ class MainView extends React.Component {
 			});
 	}
 
+	// Get user with a token
+	getUser(token) {
+		// Define a way to get user from localStorage
+		const user = localStorage.getItem('user');
+
+		// Fetch user data from server side
+		axios
+			.get(`https://myflix-movies-app.herokuapp.com/users/${user}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				// Assign result to the state
+				this.setState({ user: response.data });
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
+
+	// On log in, take in authentication Data
 	onLoggedIn(authData) {
 		console.log(authData);
+
+		//set state to the value of authentication
 		this.setState({
 			user: authData.User.Username,
 		});
 
+		// set item token, user and favoriteMovies to localStorage
 		localStorage.setItem('token', authData.token);
 		localStorage.setItem('user', authData.User.Username);
 		localStorage.setItem(
 			'favoriteMovies',
 			JSON.stringify(authData.User.FavoriteMovies)
 		);
+
+		// send token to getMovies and getUser
 		this.getMovies(authData.token);
+		this.getUser(authData.token);
 	}
 
+	// When user logs out
 	logOut() {
+		// Remove token and user from localStorage
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
 		this.setState = {
@@ -88,8 +127,9 @@ class MainView extends React.Component {
 		window.open('/', '_self');
 	}
 
+	// Render the component
 	render() {
-		// Destructure
+		// Destructure the props
 		let { movies } = this.props;
 		let { user } = this.state;
 
@@ -196,8 +236,17 @@ class MainView extends React.Component {
 	}
 }
 
-let mapStateToProps = (state) => {
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setMovies: () => dispatch(setMovies()),
+		setUser: () => dispatch(setUser()),
+	};
+};
+
+const mapStateToProps = (state) => {
 	return { movies: state.movies };
 };
 
-export default connect(mapStateToProps, { setMovies })(MainView);
+export default connect(mapStateToProps, {
+	setMovies,
+})(MainView);
