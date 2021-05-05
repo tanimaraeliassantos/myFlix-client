@@ -12,7 +12,7 @@ export class MovieCard extends React.Component {
 			<Card border="danger" style={{ width: '20em', margin: '1em' }}>
 				<Card.Img variant="top" src={movie.ImagePath} />
 				<Card.Body>
-					<Card.Title>{movie.Title}</Card.Title>
+					<Card.Title>{movie.Title.substring(0, 27)}</Card.Title>
 					<Card.Text>{movie.Description.substring(0, 100)}... </Card.Text>
 					<Link to={`/movies/${movie._id}`}>
 						<Button variant="danger" block>
