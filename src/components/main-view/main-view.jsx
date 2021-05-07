@@ -129,7 +129,7 @@ class MainView extends React.Component {
 		return (
 			<Router>
 				<Navigation user={user} logOut={() => this.logOut()} />
-				<div className="main-view pt-5">
+				<div className="main-view pt-5 m-5">
 					<Row className="pt-3">
 						<Route
 							exact

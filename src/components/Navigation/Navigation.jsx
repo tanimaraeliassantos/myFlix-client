@@ -19,7 +19,9 @@ const Navigation = ({ user, logOut }) => {
 	};
 	return (
 		<Navbar bg="dark" variant="dark" expand="lg" fixed="top" margin="20px">
-			<Navbar.Brand href={'/'}>myFlix</Navbar.Brand>
+			<Navbar.Brand className="font-italic font-weight-bold h2" href={'/'}>
+				myFlix
+			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 				{user && (
