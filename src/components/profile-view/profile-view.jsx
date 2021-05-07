@@ -3,7 +3,16 @@ import propTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { Container, Button, Card, Tab, Tabs, Form } from 'react-bootstrap';
+import {
+	Container,
+	Button,
+	Card,
+	Tab,
+	Tabs,
+	Row,
+	Form,
+	Col,
+} from 'react-bootstrap';
 
 export class ProfileView extends React.Component {
 	constructor(props) {
@@ -105,86 +114,99 @@ export class ProfileView extends React.Component {
 		console.log(this.state.FavoriteMovies);
 
 		return (
-			<Container className="profile-view">
-				<Tabs
-					defaultActiveKey="profile"
-					transition={false}
-					className="profile-tabs"
-				>
-					<Tab className="tab-item" eventKey="profile" title="Profile">
-						<Form style={{ width: '20rem', float: 'left' }}>
-							<h3 style={{ textAlign: 'left' }}>Profile Details</h3>
-							<Form.Group controlId="formBasicUsername">
-								<h5>Username</h5>
-								<Form.Label>{Username}</Form.Label>
-							</Form.Group>
-							<Form.Group controlId="formBasicPassword">
-								<h5>Password</h5>
-								<Form.Label>{Password}</Form.Label>
-							</Form.Group>
-							<Form.Group controlId="formBasicEmail">
-								<h5>Email</h5>
-								<Form.Label>{Email}</Form.Label>
-							</Form.Group>
-							<Form.Group controlId="formBasicDate">
-								<h5>Date of Birth</h5>
-								<Form.Label>{Birthday}</Form.Label>
-							</Form.Group>
-							<Form.Group controlId="FavoriteMovies">
-								<h5>Favorite Movies</h5>
-								{this.state.FavoriteMovies.map((movie) => {
-									return (
-										<div key={movie._id}>
-											<Card>
-												<Card.Img variant="top" src={movie.ImagePath} />
-												<Card.Body>
-													<Link to={`/movies/${movie._id}`}>
-														<Card.Title>{movie.Title}</Card.Title>
-													</Link>
-												</Card.Body>
-											</Card>
-											<Button onClick={() => this.removeFavorite(movie)}>
-												Remove
-											</Button>
-										</div>
-									);
-								})}
-							</Form.Group>
+			<div className="align-items-center">
+				<Form>
+					<div className="text-center">
+						<h2 className="mt-5 mb-5">Profile Details</h2>
+						<Form.Group controlId="formBasicUsername">
+							<h5>Username</h5>
+							<Form.Label>{Username}</Form.Label>
+						</Form.Group>
+						<Form.Group controlId="formBasicPassword">
+							<h5>Password</h5>
+							<Form.Label>{Password}</Form.Label>
+						</Form.Group>
+						<Form.Group controlId="formBasicEmail">
+							<h5>Email</h5>
+							<Form.Label>{Email}</Form.Label>
+						</Form.Group>
+						<Form.Group controlId="formBasicDate">
+							<h5>Date of Birth</h5>
+							<Form.Label>{Birthday}</Form.Label>
+						</Form.Group>
+					</div>
 
-							<Link to={`update/${Username}`}>
-								<Button variant="outline-red" type="link" size="sm" block>
-									Edit Profile
-								</Button>
-							</Link>
-							<Button
-								variant="danger"
-								size="sm"
-								block
-								onClick={() => this.handleUnregister()}
-							>
-								Delete Account
+					<div className="text-center">
+						<Link to={`update/${Username}`}>
+							<Button variant="danger" type="link">
+								Update my Profile
 							</Button>
-						</Form>
-					</Tab>
-					<Tab className="tab-item" eventKey="delete" title="Delete Profile">
-						<Card className="update-card" border="danger">
-							<Card.Title className="profile-title">
-								{' '}
-								Delete your profile
-							</Card.Title>
-							<Card.Body>
-								<Button
-									className="button"
-									variant="danger"
-									onClick={(e) => this.handleUnregister(e)}
-								>
-									Click here to delete your account.
-								</Button>
-							</Card.Body>
-						</Card>
-					</Tab>
-				</Tabs>
-			</Container>
+						</Link>
+					</div>
+					<hr className="m-5" />
+					<div className="text-center">
+						<h2 className="mt-5 mb-5">My Favorite Movies</h2>
+						<div className="container d-flex flex-wrap justify-content-center mb-1">
+							{FavoriteMovies.map((movie) => {
+								return (
+									<div
+										className="d-flex flex-column align-items-center m-2"
+										key={movie._id}
+									>
+										<Card>
+											<Card.Img
+												className="movie-card-img"
+												src={movie.ImagePath}
+											/>
+											<Card.Body>
+												<Link to={`/movies/${movie._id}`}>
+													<Card.Title>{movie.Title}</Card.Title>
+												</Link>
+											</Card.Body>
+											<Card.Footer>
+												<Button
+													variant="secondary"
+													onClick={() => this.removeFavorite(movie)}
+												>
+													Remove from favorite
+												</Button>
+											</Card.Footer>
+										</Card>
+									</div>
+								);
+							})}
+						</div>
+					</div>
+					<div>
+						<Link to={`/`}>
+							<Button
+								className="m-2"
+								variant="light"
+								type="link"
+								size="md"
+								block
+							>
+								Back to Movies
+							</Button>
+						</Link>
+					</div>
+					<div className="text-center">
+						<hr className="m-5" />
+						<h2 className="text-center"> DANGER ZONE</h2>
+						<p className="m-3 text-center">
+							Warning: The following action cannot be undone.
+						</p>
+						<Button
+							className="m-3"
+							variant="danger"
+							size="md"
+							onClick={() => this.handleUnregister()}
+						>
+							Delete Account
+						</Button>
+					</div>
+				</Form>
+			</div>
 		);
 	}
 }

@@ -3,15 +3,7 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // React
-import {
-	FormControl,
-	Form,
-	Nav,
-	Navbar,
-	Button,
-	Row,
-	Link,
-} from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 
 // Redux
 import { connect } from 'react-redux';
@@ -20,6 +12,7 @@ import { setUser } from '../../actions/actions';
 
 // UI Components
 
+import Navigation from '../Navigation/Navigation';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import MoviesList from '../movies-list/movies-list';
@@ -135,29 +128,7 @@ class MainView extends React.Component {
 
 		return (
 			<Router>
-				<Navbar bg="light" expand="lg" fixed="top" margin-bottom="20px">
-					<Navbar.Brand href={'/'}>myFlix</Navbar.Brand>
-					<Navbar.Toggle aria-controls="basic-navbar-nav" />
-					<Navbar.Collapse id="basic-navbar-nav">
-						<Nav className="mr-auto">
-							<Nav.Link href={'/'}>Home</Nav.Link>
-							<Nav.Link href={'/users/' + user}>Profile</Nav.Link>
-						</Nav>
-						<Form inline>
-							<FormControl
-								type="text"
-								placeholder="Search"
-								className="mr-sm-2"
-							/>
-							<Button variant="danger">Search</Button>
-						</Form>
-						<Form inline>
-							<Button variant="danger" onClick={() => this.logOut()}>
-								Logout
-							</Button>
-						</Form>
-					</Navbar.Collapse>
-				</Navbar>
+				<Navigation user={user} logOut={() => this.logOut()} />
 				<div className="main-view pt-5">
 					<Row className="pt-3">
 						<Route
@@ -235,13 +206,6 @@ class MainView extends React.Component {
 		);
 	}
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setMovies: () => dispatch(setMovies()),
-		setUser: () => dispatch(setUser()),
-	};
-};
 
 const mapStateToProps = (state) => {
 	return { movies: state.movies };
