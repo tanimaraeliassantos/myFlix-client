@@ -3,7 +3,11 @@
 	"description": "App created as an exercise for Client-Side Programming & React Achievement, from Full-Stack Immersion course at Career Foundry.",
 	"version": "1.0.0",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -b main -d build",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "react-scripts start",
+		"build": "react-scripts build"
 	},
 	"repository": {
 		"url": "https://github.com/anthropovixen/myFlix-client/blob/main/package.json"
@@ -11,7 +15,7 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"homepage": "https://github.com/anthropovixen/myFlix-client",
+	"homepage": "https://anthropovixen.github.io/myFlix-client",
 	"main": "src/index.html",
 	"dependencies": {
 		"axios": "^0.21.1",
@@ -31,6 +35,7 @@
 		"babel-plugin-transform-class-properties": "^6.24.1",
 		"babel-preset-env": "^1.7.0",
 		"babel-preset-react": "^6.24.1",
+		"gh-pages": "^3.1.0",
 		"sass": "^1.32.8"
 	}
 }
