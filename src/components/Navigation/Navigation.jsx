@@ -27,9 +27,7 @@ const Navigation = ({ user, logOut }) => {
 				{user && (
 					<div>
 						<Nav className="mr-auto">
-							<Nav.Link href={'/users/' + user?.Username ?? ''}>
-								Profile
-							</Nav.Link>
+							<Nav.Link href={'/users'}>Profile</Nav.Link>
 							<div>{renderLogout()}</div>
 						</Nav>
 					</div>
