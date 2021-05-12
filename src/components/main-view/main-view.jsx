@@ -156,7 +156,7 @@ class MainView extends React.Component {
 
 						<Route
 							exact
-							path="/users/:Username"
+							path="/users/:username"
 							render={() => {
 								if (movies.length === 0) return <div className="main-view" />;
 								return <ProfileView movies={movies} />;
