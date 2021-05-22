@@ -156,7 +156,7 @@ class MainView extends React.Component {
 
 						<Route
 							exact
-							path="/users/"
+							path="/users/:Username"
 							render={() => {
 								if (movies.length === 0) return <div className="main-view" />;
 								return <ProfileView movies={movies} />;
@@ -164,7 +164,7 @@ class MainView extends React.Component {
 						/>
 
 						<Route
-							path="/users/update/"
+							path="/users/update/:Username"
 							render={() => {
 								if (movies.length === 0) return <div className="main-view" />;
 								return <ProfileUpdate movies={movies} />;
@@ -172,7 +172,7 @@ class MainView extends React.Component {
 						/>
 
 						<Route
-							path="/genres/:name"
+							path="/genres/:Name"
 							render={({ match }) => {
 								if (movies.length === 0) return <div className="main-view" />;
 								return (
@@ -187,7 +187,7 @@ class MainView extends React.Component {
 						/>
 
 						<Route
-							path="/directors/:name"
+							path="/directors/:Name"
 							render={({ match }) => {
 								if (movies.length === 0) return <div className="main-view" />;
 								return (
