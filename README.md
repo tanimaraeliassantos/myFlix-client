@@ -1,6 +1,6 @@
 # myFlix React Client
 
-myFlix Angular Client is the client-side of a movie database application built with React using an existing server-side and a MongoDB database.
+myFlix React Client is the client-side of a movie database application built with React using an existing server-side and a MongoDB database.
 
 This app provides users with access to information about different movies, directors and genres. Users are able to sign up, update personal information and create and edit a list with their favorite movies.
 
@@ -52,6 +52,13 @@ To get more help on installing Parcel go check out the [Parcel Documentation](ht
 - Allows users to see information about genre and direction of a movie of their choice
 - Allows users to update or delete their account
 - Allows users to add or remove movies from their list of favorite movies
+
+## Technologies
+
+- Express
+- Mongoose
+- Node
+- React
 
 ### Author
 
