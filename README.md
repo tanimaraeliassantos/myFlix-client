@@ -6,9 +6,9 @@ This app provides users with access to information about different movies, direc
 
 **See the hosted application [here](https://moviesmyflix.netlify.app/).**
 
-View the website built with Angular [here](https://anthropovixen.github.io/Angular-Client-myFlix-App/welcome) and its repository [here](https://github.com/anthropovixen/Angular-Client-myFlix-App/tree/master).
+View the website built with Angular [here](https://anthropovixen.github.io/Angular-Client-myFlix-App/welcome) and its repository [here](https://github.com/tanimaraeliassantos/myFlix-client).
 
-View the back-end REST API database [here](https://github.com/anthropovixen/myFlix-Project).
+View the back-end REST API database [here](https://github.com/tanimaraeliassantos/myFlix-Project).
 
 ![myFlix-React-Client](img/myflix-react-showcase.gif)
 
@@ -62,7 +62,7 @@ To get more help on installing Parcel go check out the [Parcel Documentation](ht
 
 ### Author
 
-[Tanimara Elias Santos](https://github.com/anthropovixen)
+[Tanimara Elias Santos](https://github.com/tanimaraeliassantos)
 
 ### Version
 
